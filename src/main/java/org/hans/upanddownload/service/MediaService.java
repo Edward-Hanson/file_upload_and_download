@@ -2,10 +2,9 @@ package org.hans.upanddownload.service;
 
 import org.hans.upanddownload.entity.Media;
 import org.hans.upanddownload.repository.MediaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,9 +22,9 @@ public class MediaService {
 
     public ResponseEntity<String> saveMedia(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        try{
-            if (filename.contains("..")){
-                throw new  Exception("The filename is invalid");
+        try {
+            if (filename.contains("..")) {
+                throw new Exception("The filename is invalid");
             }
 
             Media media = Media.builder()
@@ -36,11 +35,14 @@ public class MediaService {
 
 
             return ResponseEntity.ok("Upload was successful");
-        }
-        catch( Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Upload failed");
         }
 
+    }
+
+    public Optional<Media> findMedia(String id) {
+        return mediaRepository.findById(id);
     }
 }
