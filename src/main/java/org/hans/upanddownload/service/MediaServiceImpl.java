@@ -1,5 +1,6 @@
 package org.hans.upanddownload.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hans.upanddownload.constants.ResponseConstant;
 import org.hans.upanddownload.entity.Media;
@@ -19,6 +20,7 @@ public class MediaServiceImpl implements MediaService {
 
     private final MediaRepository mediaRepository;
 
+    @Transactional
     public String saveMedia(List<MultipartFile> files) {
         try {
             List<Media> dbFiles = files.stream()
@@ -36,6 +38,7 @@ public class MediaServiceImpl implements MediaService {
         return mediaRepository.findById(id).orElseThrow(() -> new MediaException(ResponseConstant.FILE_NOT_FOUND));
     }
 
+    @Transactional
     @Override
     public String updateMedia(UUID id, MultipartFile file) {
         validateMedia(file);

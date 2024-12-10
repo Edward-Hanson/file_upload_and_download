@@ -15,10 +15,13 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: Eddy2357
+    hikari:
+      auto-commit: false
 
   jpa:
     hibernate:
       ddl-auto: update
+    open-in-view: false
 
 
 server:
