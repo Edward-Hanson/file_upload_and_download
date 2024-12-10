@@ -8,4 +8,5 @@ import java.util.UUID;
 public interface MediaService {
     String saveMedia(List<MultipartFile> files);
     Media getFile(UUID id);
+    String updateMedia(UUID id, MultipartFile file);
 }

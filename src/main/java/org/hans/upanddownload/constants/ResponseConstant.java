@@ -5,6 +5,7 @@ public class ResponseConstant {
     public static final String INVALID_FILENAME = "Invalid filename";
     public static final String FILES_UPLOADED = "Files successfully uploaded";
     public static final String FILE_NOT_FOUND = "File not found";
+    public static final String FILE_UPDATE_SUCCESS ="File updated successfully" ;
 
 
     private ResponseConstant() {

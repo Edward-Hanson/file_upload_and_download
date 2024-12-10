@@ -5,5 +5,4 @@ import org.hans.upanddownload.entity.Media;
 import java.util.UUID;
 
 public interface MediaRepository extends JpaRepository<Media, UUID>{
-
 }

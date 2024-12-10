@@ -36,9 +36,27 @@ public class MediaServiceImpl implements MediaService {
         return mediaRepository.findById(id).orElseThrow(() -> new MediaException(ResponseConstant.FILE_NOT_FOUND));
     }
 
+    @Override
+    public String updateMedia(UUID id, MultipartFile file) {
+        validateMedia(file);
+        try {
+                byte[] bytes = file.getBytes();
+                mediaRepository.findById(id).ifPresentOrElse(media -> {
+                media.setFileName(file.getOriginalFilename());
+                media.setFileType(file.getContentType());
+                media.setData(bytes);
+                mediaRepository.save(media);
+                }, () -> new MediaException(ResponseConstant.FILE_NOT_FOUND));
+        }catch (IOException e){
+              throw new MediaException(e.getMessage());
+        }
+        return ResponseConstant.FILE_UPDATE_SUCCESS;
+    }
+
+
+
     private void validateMedia(MultipartFile media) {
         String filename = StringUtils.cleanPath(media.getOriginalFilename());
-
         if (media.getOriginalFilename() == null || media.getOriginalFilename().isEmpty() || filename.contains("..")) {
             throw new MediaException(ResponseConstant.INVALID_FILENAME);
         }
